@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, ChevronDown } from 'lucide-react';
 
 interface CameraProps {
   onCapture: (dataUrl: string) => void;
   isProcessing: boolean;
+  onHide?: () => void;
 }
 
-export const Camera: React.FC<CameraProps> = ({ onCapture, isProcessing }) => {
+export const Camera: React.FC<CameraProps> = ({ onCapture, isProcessing, onHide }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -80,6 +81,19 @@ export const Camera: React.FC<CameraProps> = ({ onCapture, isProcessing }) => {
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/stardust.png")' }}
         />
+
+        {/* 隐藏按钮 */}
+        {onHide && (
+          <button
+            onClick={onHide}
+            className="absolute top-2 z-50 px-3 py-1.5 rounded-full bg-white/30 backdrop-blur-md hover:bg-white/40 shadow-lg flex items-center gap-1.5 transition-all duration-200 hover:scale-105 border border-white/20"
+            style={{ left: '50%', transform: 'translateX(-50%)' }}
+            title="隐藏相机"
+          >
+            <ChevronDown size={14} className="text-gray-700" />
+            <span className="text-xs font-medium text-gray-700">隐藏</span>
+          </button>
+        )}
 
         {/* 顶部细节 */}
         <div className="w-full h-24 flex justify-between items-center px-6 pt-4 relative">

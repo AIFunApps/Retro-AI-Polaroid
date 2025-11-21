@@ -5,10 +5,12 @@ import { PolaroidPhoto } from './types';
 import { generatePhotoCaption } from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronUp } from 'lucide-react';
 
 const App: React.FC = () => {
   const [photos, setPhotos] = useState<PolaroidPhoto[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isCameraVisible, setIsCameraVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleCapture = async (dataUrl: string) => {
@@ -106,18 +108,47 @@ const App: React.FC = () => {
       </div>
 
       {/* Camera Layer */}
-      <div className="absolute bottom-10 z-30" style={{ left: '50%', transform: 'translateX(-50%)' }}>
-        <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, type: 'spring' }}
-        >
-            <Camera onCapture={handleCapture} isProcessing={isProcessing} />
-        </motion.div>
+      <div className="absolute bottom-10 left-0 right-0 z-30 flex justify-center">
+        <AnimatePresence>
+          {isCameraVisible && (
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+            >
+              <Camera
+                onCapture={handleCapture}
+                isProcessing={isProcessing}
+                onHide={() => setIsCameraVisible(false)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
+      {/* 显示相机按钮 */}
+      {!isCameraVisible && (
+        <div className="absolute bottom-10 left-0 right-0 z-30 flex justify-center">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <button
+              onClick={() => setIsCameraVisible(true)}
+              className="px-4 py-2 rounded-full bg-white/30 backdrop-blur-md hover:bg-white/40 shadow-lg flex items-center gap-1.5 transition-all duration-200 hover:scale-105 border border-white/20"
+              title="显示相机"
+            >
+              <ChevronUp size={16} className="text-gray-700" />
+              <span className="text-sm font-medium text-gray-700">显示</span>
+            </button>
+          </motion.div>
+        </div>
+      )}
+
       {/* Footer / Credits */}
-      <div className="absolute bottom-2 text-gray-500 text-xs font-mono z-40 bg-white/70 px-2 py-1 rounded pointer-events-none" style={{ left: '50%', transform: 'translateX(-50%)' }}>
+      <div className="rounded-full absolute bottom-2 text-gray-500 text-xs font-mono z-40 bg-white/70 px-2 py-1 rounded pointer-events-none" style={{ left: '50%', transform: 'translateX(-50%)' }}>
         Powered by Gemini 2.5
       </div>
     </div>
