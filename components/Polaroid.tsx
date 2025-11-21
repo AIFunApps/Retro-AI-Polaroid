@@ -33,34 +33,34 @@ export const Polaroid: React.FC<PolaroidProps> = ({ photo, containerRef, onDragE
       drag
       dragConstraints={containerRef}
       dragMomentum={false}
-      initial={{ 
-        x: photo.x, 
-        y: photo.y, 
-        scale: 0.5, 
-        opacity: 0, 
-        rotate: 0 
+      initial={{
+        x: photo.x,
+        y: photo.y,
+        scale: 0.5,
+        opacity: 0,
+        rotate: 0
       }}
-      animate={{ 
-        x: photo.x, 
-        y: photo.y, 
-        scale: 1, 
+      animate={{
+        x: photo.x,
+        y: photo.y,
+        scale: 1,
         opacity: 1,
-        rotate: photo.rotation 
+        rotate: photo.rotation
       }}
-      exit={{ 
-        scale: 0.8, 
-        opacity: 0, 
-        transition: { duration: 0.2 } 
+      exit={{
+        scale: 0.8,
+        opacity: 0,
+        transition: { duration: 0.2 }
       }}
       onDragEnd={(e, info) => {
         // Calculate position relative to parent to save state
-        // In a real app, we might use getBoundingClientRect, 
+        // In a real app, we might use getBoundingClientRect,
         // but here we trust framer's offset for simplicity in visual placement
         onDragEnd(photo.id, photo.x + info.offset.x, photo.y + info.offset.y);
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="absolute cursor-move touch-none select-none z-20 pointer-events-auto w-60"
+      className="absolute cursor-move touch-none select-none z-20 pointer-events-auto w-40"
     >
       <div className="polaroid-frame">
         {/* Photo Area */}
@@ -71,7 +71,7 @@ export const Polaroid: React.FC<PolaroidProps> = ({ photo, containerRef, onDragE
             className={`w-full h-full object-cover ${photo.isDeveloping ? 'developing-photo' : ''}`}
             draggable={false}
           />
-          
+
           {/* Glossy Overlay */}
           <div className="glossy-overlay" />
         </div>

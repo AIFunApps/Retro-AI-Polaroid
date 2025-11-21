@@ -33,8 +33,8 @@ const App: React.FC = () => {
     // 2. Animate "Ejection" logic
     // We'll simulate the ejection by updating its position after a brief moment
     setTimeout(() => {
-        setPhotos((prev) => prev.map(p => 
-            p.id === newPhoto.id 
+        setPhotos((prev) => prev.map(p =>
+            p.id === newPhoto.id
             ? { ...p, y: p.y - 200, x: p.x + (Math.random() * 50) } // Move up and slightly random X
             : p
         ));
@@ -73,8 +73,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div 
-        ref={containerRef} 
+    <div
+        ref={containerRef}
         className="relative w-full h-screen overflow-hidden bg-gray-300"
         style={{
           backgroundImage: 'radial-gradient(#ccc 1px, transparent 1px)',
@@ -82,9 +82,9 @@ const App: React.FC = () => {
         }}
     >
       {/* Header / Instructions */}
-      <div className="absolute top-6 right-6 z-40 pointer-events-none">
-        <div className="bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-gray-200 rotate-2">
-            <h1 className="text-2xl font-bold text-gray-800 handwritten">My Photo Wall</h1>
+      <div className="absolute top-4 z-40 pointer-events-none" style={{ left: '50%', transform: 'translateX(-50%)' }}>
+        <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg border border-gray-200">
+            <h1 className="text-lg font-bold text-gray-800 handwritten">My Photo Wall</h1>
         </div>
       </div>
 
@@ -106,8 +106,8 @@ const App: React.FC = () => {
       </div>
 
       {/* Camera Layer */}
-      <div className="absolute bottom-10 left-10 z-30 md:left-10 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-5">
-        <motion.div 
+      <div className="absolute bottom-10 z-30" style={{ left: '50%', transform: 'translateX(-50%)' }}>
+        <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, type: 'spring' }}
@@ -117,7 +117,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Footer / Credits */}
-      <div className="absolute bottom-4 right-6 text-gray-500 text-xs font-mono z-40 bg-white/70 px-2 py-1 rounded pointer-events-none">
+      <div className="absolute bottom-2 text-gray-500 text-xs font-mono z-40 bg-white/70 px-2 py-1 rounded pointer-events-none" style={{ left: '50%', transform: 'translateX(-50%)' }}>
         Powered by Gemini 2.5
       </div>
     </div>
