@@ -1,0 +1,136 @@
+/* Tailwind CSS 基础样式 */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Nunito:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式 */
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #e0e0e0;
+  background-image: radial-gradient(#ccc 1px, transparent 1px);
+  background-size: 20px 20px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.handwritten {
+  font-family: 'Caveat', cursive;
+}
+
+/* 相机样式 */
+.camera-body {
+  background-color: #f2ece1;
+  border-bottom: 8px solid #e6ddd0;
+  border-radius: 40px;
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.camera-ring {
+  background-color: #e8d0c0;
+  border: 4px solid #dfc4b2;
+}
+
+.camera-button {
+  background-color: #d68c85;
+  transition: all 0.1s;
+}
+
+.camera-button:hover {
+  background-color: #c77b74;
+}
+
+.camera-button:active {
+  background-color: #b56a63;
+  transform: scale(0.95);
+}
+
+.camera-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.flash-unit {
+  background-color: #e5e7eb;
+  border: 4px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.flash-unit:hover .flash-effect {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+.flash-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.8) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.7s, transform 0.7s;
+  transform: translateX(-100%);
+}
+
+.lens-reflection {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(to top right, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* 拍立得样式 */
+.polaroid-frame {
+  background-color: white;
+  padding: 12px;
+  padding-bottom: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.polaroid-frame:hover {
+  transform: scale(1.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.photo-area {
+  background-color: #111827;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.glossy-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
+}
+
+/* 显影动画 */
+.developing-photo {
+  animation: develop 5s ease-out forwards;
+}
+
+@keyframes develop {
+  0% { 
+    filter: blur(10px) brightness(0.2) sepia(1); 
+    opacity: 0.8; 
+  }
+  40% { 
+    filter: blur(5px) brightness(0.5) sepia(0.8); 
+  }
+  100% { 
+    filter: blur(0px) brightness(1) sepia(0.2); 
+    opacity: 1; 
+  }
+}

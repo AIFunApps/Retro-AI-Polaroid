@@ -75,12 +75,16 @@ const App: React.FC = () => {
   return (
     <div 
         ref={containerRef} 
-        className="relative w-full h-screen overflow-hidden flex flex-col justify-between"
+        className="relative w-full h-screen overflow-hidden bg-gray-300"
+        style={{
+          backgroundImage: 'radial-gradient(#ccc 1px, transparent 1px)',
+          backgroundSize: '20px 20px'
+        }}
     >
       {/* Header / Instructions */}
-      <div className="absolute top-6 right-6 z-10 pointer-events-none">
-        <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-gray-200 rotate-2">
-            <h1 className="text-xl font-bold text-gray-800 handwritten">My Photo Wall</h1>
+      <div className="absolute top-6 right-6 z-40 pointer-events-none">
+        <div className="bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-gray-200 rotate-2">
+            <h1 className="text-2xl font-bold text-gray-800 handwritten">My Photo Wall</h1>
         </div>
       </div>
 
@@ -101,9 +105,8 @@ const App: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* Camera Layer (Fixed Bottom Left) */}
-      <div className="absolute bottom-10 left-10 z-30">
-        {/* Invisible slot animation helper could go here */}
+      {/* Camera Layer */}
+      <div className="absolute bottom-10 left-10 z-30 md:left-10 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-5">
         <motion.div 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -114,7 +117,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Footer / Credits */}
-      <div className="absolute bottom-2 right-4 text-gray-400 text-xs font-mono z-10">
+      <div className="absolute bottom-4 right-6 text-gray-500 text-xs font-mono z-40 bg-white/70 px-2 py-1 rounded pointer-events-none">
         Powered by Gemini 2.5
       </div>
     </div>

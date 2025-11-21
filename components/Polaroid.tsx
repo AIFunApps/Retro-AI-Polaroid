@@ -60,12 +60,11 @@ export const Polaroid: React.FC<PolaroidProps> = ({ photo, containerRef, onDragE
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="absolute cursor-move touch-none select-none z-20 pointer-events-auto"
-      style={{ width: '240px' }}
+      className="absolute cursor-move touch-none select-none z-20 pointer-events-auto w-60"
     >
-      <div className="bg-white p-3 pb-8 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl relative">
+      <div className="polaroid-frame">
         {/* Photo Area */}
-        <div className="bg-gray-900 aspect-[4/5] w-full overflow-hidden relative mb-3">
+        <div className="photo-area">
           <img
             src={photo.imageUrl}
             alt="Memory"
@@ -74,7 +73,7 @@ export const Polaroid: React.FC<PolaroidProps> = ({ photo, containerRef, onDragE
           />
           
           {/* Glossy Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
+          <div className="glossy-overlay" />
         </div>
 
         {/* Caption Area */}
