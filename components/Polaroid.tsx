@@ -79,7 +79,7 @@ export const Polaroid: React.FC<PolaroidProps> = ({ photo, containerRef, onDragE
         {/* Caption Area */}
         <div className="h-8 flex items-center justify-center text-center">
           {photo.caption ? (
-            <p className="handwritten text-gray-700 text-xl transform -rotate-1">
+            <p className="handwritten text-gray-700 text-sm">
               {photo.caption}
             </p>
           ) : (

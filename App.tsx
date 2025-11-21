@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Camera } from './components/Camera';
 import { Polaroid } from './components/Polaroid';
 import { PolaroidPhoto } from './types';
-import { generatePhotoCaption } from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
@@ -11,6 +10,7 @@ const App: React.FC = () => {
   const [photos, setPhotos] = useState<PolaroidPhoto[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCameraVisible, setIsCameraVisible] = useState(true);
+  const [memoryPrompt, setMemoryPrompt] = useState('这一刻，我想记住...');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleCapture = async (dataUrl: string) => {
@@ -22,7 +22,7 @@ const App: React.FC = () => {
       id: uuidv4(),
       imageUrl: dataUrl,
       timestamp: Date.now(),
-      caption: "", // Empty initially
+      caption: memoryPrompt || "这一刻，我想记住...", // Use input prompt as caption
       x: 50, // Start near the camera ejection point relative to container
       y: window.innerHeight - 450, // Approximate top of camera
       rotation: (Math.random() - 0.5) * 10, // Random slight tilt
@@ -49,19 +49,6 @@ const App: React.FC = () => {
       );
       setIsProcessing(false);
     }, 3000); // Allow next shot sooner than full develop
-
-    // 4. Fetch AI Caption in background
-    try {
-      const caption = await generatePhotoCaption(dataUrl);
-      setPhotos((prev) =>
-        prev.map((p) => (p.id === newPhoto.id ? { ...p, caption } : p))
-      );
-    } catch (e) {
-      console.error("Failed to caption", e);
-      setPhotos((prev) =>
-        prev.map((p) => (p.id === newPhoto.id ? { ...p, caption: "Start of something new" } : p))
-      );
-    }
   };
 
   const handleDragEnd = (id: string, x: number, y: number) => {
@@ -106,6 +93,26 @@ const App: React.FC = () => {
           ))}
         </AnimatePresence>
       </div>
+
+      {/* Memory Prompt Input */}
+      {isCameraVisible && (
+        <div className="absolute bottom-[420px] left-0 right-0 z-40 flex justify-center">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="w-80"
+          >
+            <input
+              type="text"
+              value={memoryPrompt}
+              onChange={(e) => setMemoryPrompt(e.target.value)}
+              placeholder="这一刻，我想记住..."
+              className="w-full px-4 py-2.5 rounded-full bg-white/30 backdrop-blur-md border border-white/20 shadow-lg text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/40 transition-all duration-200"
+            />
+          </motion.div>
+        </div>
+      )}
 
       {/* Camera Layer */}
       <div className="absolute bottom-10 left-0 right-0 z-30 flex justify-center">
